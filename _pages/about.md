@@ -13,8 +13,8 @@ Rice University
 6100 Main Street
 Houston, TX 77005, USA
 
-**Office**:Duncan Hall 1039 & 
-**E-mail**:`emilywang@rice.edu`
+**Office**: Duncan Hall 1039
+**E-mail**: `emilywang@rice.edu`
 **Phone**: (469)-396-3543
 
 ## Bio
