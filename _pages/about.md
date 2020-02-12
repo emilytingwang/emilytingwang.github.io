@@ -1,11 +1,7 @@
 ---
 permalink: /about/
----
-
-Hi! My name is Emily Wang.
-
-
 # Defaults
+title: About
 defaults:
   # _pages
   - scope:
@@ -14,5 +10,13 @@ defaults:
     values:
       layout: single
       author_profile: true
+---
+
+## About me
+
+Hi! My name is Emily Wang.
+
+
+
 
 
