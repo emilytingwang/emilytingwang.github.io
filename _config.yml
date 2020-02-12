@@ -24,7 +24,7 @@ description              : "Personal website"
 url                      : "https://emilytingwang.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "emilytingwang/emilytingwang.github.io"
-teaser                   : /assets/p4hysn2g4pw8w8kg.jpg
+teaser                   : #
 logo                     : # path for masthead
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
@@ -108,7 +108,7 @@ analytics:
 # Site Author
 author:
   name             : "Emily Wang"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : /assets/p4hysn2g4pw8w8kg.jpg
   bio              : Statistics PhD Student at Rice University
   location         : Houston, TX, USA
   email            : emilywang@rice.edu
