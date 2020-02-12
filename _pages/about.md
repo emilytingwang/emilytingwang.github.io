@@ -10,18 +10,17 @@ author_profile: true
 
 **Work Address**:
 
-Department of Statistics, MS 100
-
-Rice University
-
-6100 Main Street
-
-Houston, TX 77005, USA
+ > Department of Statistics, MS 100
+ >
+ > Rice University
+ >
+ > 6100 Main Street
+ >
+ > Houston, TX 77005, USA
 
 **Office**: Duncan Hall 1039
 
-
-**E-mail**: `emilywang@rice.edu`
+**E-mail**: [emilywang@rice.edu](mailto:emilywang@rice.edu)
 
 **Phone**: (469)-396-3543
 
