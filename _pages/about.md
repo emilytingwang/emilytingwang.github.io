@@ -9,7 +9,6 @@ author_profile: true
 ## Contact Info
 
 **Work Address**:
-
  > Department of Statistics, MS 100
  >
  > Rice University
