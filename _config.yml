@@ -24,8 +24,8 @@ description              : "Personal website"
 url                      : "https://emilytingwang.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "emilytingwang/emilytingwang.github.io"
-teaser                   : #
-logo                     : /assets/skie2.png
+teaser                   : /assets/skie2.png
+logo                     : #
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
