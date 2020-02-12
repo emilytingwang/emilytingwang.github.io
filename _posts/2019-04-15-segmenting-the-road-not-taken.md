@@ -28,12 +28,7 @@ As we could not rely on manually engineering a basis to map the information avai
 
 This network essentially has two stages. First a series of 3x3 convolutions followed by non-linear activation functions and pooling contracts the image with the goal of feature extraction.  In each subsequent layer of the "downward" pass, the number of feature maps is doubled while the image is shrunken.  Once a sufficient number of feature maps have been created, the image is then expanded through 2$\times$2 up convolutions and parameter concatenation with corresponding contraction layers until it reaches its original input size. The output is then passed through a fully connected layer with a sigmoid activation to create a segmentation map.    
 
-![U-net](/assets/U-Net.png) {: .align-center}
-
-| ![U-net](/assets/U-Net.png)| 
-|:--:| 
-| Fig. 1 |
-
+![U-net](/assets/U-Net.png) {: .center-image }
 
 Since this method has been well explored, implementing this architecture was not difficult. What proved to be the most challenging part of creating the best model was hyper-parameter tuning. There are numerous design decisions that need be made when constructing such a network. Developing intuition about which ones will result in the model with the highest predictive power is quite difficult given the hundreds of millions of parameters present in the model, the time required for training, and our limited knowledge of the functionality of convolutional neural networks. 
 
@@ -51,9 +46,7 @@ For all these encoders, we used weights pre-trained on the 2012 ILSVRC ImageNet 
 
 It was clear after just a few steps within each epoch which encoders would perform the best. Notably, U-Net-ResNet34 ran extremely fast and the loss decreased quickly. In fact, the entire training process took only 5-6 hours with data augmentation and 15-20 epochs total on an AWS p2.xlarge instance, which was far faster than any model we had looked at so far. LinkNet architectures seemed to converge very slowly, so we abandoned this encoder from the get go. We believe the VGG-16 and ResNeXt50 encoders did not work as well as ResNet34 because they had a high number of parameters and no skip connections, so that overfitting was much more likely.  After running a U-Net with each respective encoder until the validation loss stopped improving, we were able to see the maximum capacity of each encoder-U-Net combination. A comparison of each model is below.
 
-<p align="center">
-  <img width="350" height="250" src=/assets/Model_Comparison.jpg>
-</p>
+![U-net](/assets/Model_Comparison.jpg) {: .center-image }
 
 Clearly, U-Net-ResNet34 performed above and beyond all other combinations of architecture-encoders. Furthermore, this model trained very fast (around 15-30 minutes per epoch on a single Tesla K80 GPU, reaching convergence around 15 epochs) compared to the other models. Because of its high performance and speed of training, we chose the U-Net-ResNet34 as the final single model from which to ensemble and create our best set of predictions. This network was remarkably sparse, due to the skip connections (Figure 8) that allows the network to pass over unnecessary layers. This simultaneously solves the problems of too many parameters as well as the vanishing gradient issue (prevalent in networks of similar depth) as a result of having too many layers. 
 
@@ -71,9 +64,7 @@ Looking at the images and corresponding masks in the training set, we realized t
 
 Based on the competition metric, we also introduced the idea of a minimum mask size as another post-processing step. The Dice Coefficient greatly penalizes false positives, or pixels classified by the model as roads that are not roads, when the true mask size is very low.  Once we had thresholded the output probabilities, we examined each prediction to see the number of encoded roads in the predicted mask.  Given that there are 512$\times$512 pixels in a mask, we decided that there should be base minimum number of pixels classified as roads in a mask for us to find a sweet spot with the competition metric.
 
-<p align="center">
-  <img width="350" height="250" src=/assets/postprocess.png>
-</p>
+![U-net](/assets/postprocess.png) {: .center-image }
 
 To find the optimal pixel probability and minimum mask size, we ran a simple grid search using our best model, the U-Net with a pre-trained Res-Net encoder, on training data and their true masks.  We generated predictions for the first 3000 images using minimum mask sizes from 100 to 1000, and pixel probability cutoffs ranging from 0.3 to 0.9 in increments of 0.1. For each of the predictions, we compared the modified dice coefficient. The results are seen in Figure 10, and we found that a minimum mask size of 400 and inclusion probability of 0.8 produced the best dice coefficient. We used these thresholds in predictions for single models. We applied this technique to ensembles of models as well, though because the variance of an ensemble of models is lower in general, we used a probability cutoff of 0.5 and a minimum mask size of 300 for that case specifically.
 
@@ -81,22 +72,17 @@ To find the optimal pixel probability and minimum mask size, we ran a simple gri
 
 Below is a comparison of a prediction from the U-Net with a pre-trained ResNet34 encoder (right) with predictions from the classic U-Net (left), our very first model. U-Net-ResNet34 is better able to capture nuances in the image data, close road segments more successfully, and ignore random noise, when compared to the U-Net. 
 
-<p align="center">
-  <img width="185" height="185" src=/assets/75838_sat.jpg>
-  <img width="200" height="200" src=/assets/unet_sample.png>
-  <img width="200" height="200" src=/assets/resnet_sample.png>
-</p>
-
+![U-net](/assets/75838_sat.jpg) {: .center-image }
+![U-net](/assets/unet_sample.png) {: .center-image }
+![U-net](/assets/resnet_sample.png) {: .center-image }
     
 It is clear for some images, that the U-Net-ResNet34 predicts very well. This applies mostly to images with very obvious roads, of a single color, with clear edges (no shrubs or greenery obstructing the road's edges). Some cases in which our model did not do very well include narrow dirt roads, parts of images where we humans could not even confidently classify as being a road or not, and field lines in rural areas that were mistaken to be roads due to their structure. We also noticed that the algorithm had problems "closing" roads by connecting them together; this problem was more evident in areas of high classification uncertainty. 
 
 We also include a plot of training and validation loss and dice coefficient over time (epochs) for the U-Net-ResNet34 with data augmentation. The training loss and dice coefficient continue to decrease, but validation loss and dice appear to have stagnated. It's clear that the algorithm is learning a great deal about the training set, but that learning is not translating very well past the first epoch to new images. Perhaps having learning that generalizes better to new images is not possible (or very difficult), but given more time and computing resources we would have experimented with different architectures.
 
-<p align="center">
-  <img width="300" height="200" src=/assets/loss.png>
-  <img width="300" height="200" src=/assets/dice.png>
- </p>
-
+![U-net](/assets/loss.png) {: .center-image }
+![U-net](/assets/dice.png) {: .center-image }
+ 
 As a final step to improve prediction accuracy, we ensembled two models by averaging their sigmoid outputs together. Specifically, we trained one U-Net-ResNet34 without data augmentation, saved the results, trained a second U-Net-ResNet34 (this time WITH 5000 data-augmented images added manually to the training set), and saved the second set of results. We then averaged the resulting probabilities together. Though the model with data augmentation clearly performs better, ensembling it with the model without data augmentation reduces the overall variance of the sigmoid probabilities and thus gives higher accuracy. 
 
 ## Conclusion
