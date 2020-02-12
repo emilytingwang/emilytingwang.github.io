@@ -25,7 +25,7 @@ url                      : "https://emilytingwang.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "emilytingwang/emilytingwang.github.io"
 teaser                   : #
-logo                     : # path for masthead
+logo                     : /assets/skie2.png
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
