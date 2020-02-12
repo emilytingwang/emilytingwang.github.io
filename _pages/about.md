@@ -6,5 +6,10 @@ author_profile: true
 
 ---
 
-## About me
+## Contact Info
+
+## Bio
 Hi!
+
+## Research Interests
+
