@@ -28,7 +28,10 @@ As we could not rely on manually engineering a basis to map the information avai
 
 This network essentially has two stages. First a series of 3x3 convolutions followed by non-linear activation functions and pooling contracts the image with the goal of feature extraction.  In each subsequent layer of the "downward" pass, the number of feature maps is doubled while the image is shrunken.  Once a sufficient number of feature maps have been created, the image is then expanded through 2$\times$2 up convolutions and parameter concatenation with corresponding contraction layers until it reaches its original input size. The output is then passed through a fully connected layer with a sigmoid activation to create a segmentation map.    
 
-![U-net](/assets/U-Net.png){: .center-image }
+| ![U-net](/assets/U-Net.png)| 
+|:--:| 
+| Fig. 1 |
+
 
 Since this method has been well explored, implementing this architecture was not difficult. What proved to be the most challenging part of creating the best model was hyper-parameter tuning. There are numerous design decisions that need be made when constructing such a network. Developing intuition about which ones will result in the model with the highest predictive power is quite difficult given the hundreds of millions of parameters present in the model, the time required for training, and our limited knowledge of the functionality of convolutional neural networks. 
 
