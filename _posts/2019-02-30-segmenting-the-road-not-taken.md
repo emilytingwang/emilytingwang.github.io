@@ -11,46 +11,15 @@ excerpt: "Deep Learning models for segmenting satellite road and highway images.
 
 ---
 
-## Description
-
-This work follows the development of our ability to implement complex algorithms on a high dimensional data set.  Our final model produced a dice coefficient of over 0.76 in the task of extracting roads from satellite images, placing among the top 10 teams in the class, and highlights our progression of knowledge in how to approach prediction problems in the field of machine learning. We began early in the project phase by implementing a naive K-nearest-neighbors logistic regression, based on results from our clustering algorithm. As we learned more about deep networks such as convolutional neural networks, we implemented a very basic U-Net, which outperformed the logistic regression by a great deal. We improved upon this classic architecture by adding various encoders to the U-Net's contraction path. We determined which methods worked best and, using those encoders, we were able to create a final ensemble of two models that noticeably improved the prediction accuracy of the original U-Net. 
-
 ## Exploratory Data Analysis and Initial Modeling Attempts
 
-The goal of this project was to segment and extract road pixels from 512\(\times\)512 RGB satellite aerial images. We were given approximately 10,000 training images to train on and 2,170 test images for which our predictions will be evaluated. At first look, there was a large variety of images which ranged from highly urban (many buildings and roads), to mostly rural (many fields and not many buildings), to a mix of urban/rural areas. It was also clear that this was an unbalanced classification problem: 96\% of pixels were non-road, and only 4\% were roads. 
+The goal of this project was to segment and extract road pixels from 512 by 512 RGB satellite aerial images. We were given approximately 10,000 training images to train on and 2,170 test images for which our predictions will be evaluated. At first look, there was a large variety of images which ranged from highly urban (many buildings and roads), to mostly rural (many fields and not many buildings), to a mix of urban/rural areas. It was also clear that this was an unbalanced classification problem: 96% of pixels were non-road, and only 4% were roads. 
 
-Neither of us had ever worked with image data, nor tackled an image segmentation problem.  However, we were quickly able to discern that image data can be interpreted as a feature matrix  based on color channels, and that image segmentation is simply a classification problem. Though the formulation appeared simple, the sheer size of the training data set coupled with our desire to produce a robust model for classification presented a difficult challenge.  
-
-We understood that the best model would have to be trained using the most information that could be extracted on our collection of training images, but we realized that any common practice machine learning technique conducted on these data would be neither computationally efficient nor cheap. In order to train a model, there would be millions of parameters to store, along with millions to billions of computations to conduct. So, in our initial modeling attempts, we attempted to create a delicate balance between leveraging all of the information present in the data set with producing a model that was feasible to train given the time constraints of a semester project.
-
-## Clustering: Combining Intuition and Unsupervised Learning Techniques
-
-The obvious way to exploit the information contained in the training images was to cluster.  We felt that if we could effectively group the images, it would be possible to generalize the images by cluster, thereby reducing the scale of our training set. With clearly defined clusters, it might be possible to train models on a few images from each cluster,and only loose a marginal amount of information.
-
-Intuition played a large role in coming up with an effective clustering scheme.  We realized that in the problem at hand, we were attempting to create a pixel by pixel mapping given a training image to its hand drawn mask:
-\[f: (R,G,B) \rightarrow [0,1]\]
-
-Now, there were certainly images in the training set with more road pixels in their masks than others, and equivalently, images with fewer road pixels.  There were also a fair share of images with a moderate number of roads (the hardest group to classify).  We could also easily quantify road concentration by simply computing the sum of the pixel values in an image's mask. For instance, images with many roads would (hopefully) have masks with many more 1's. So, we employed a three-Means clustering algorithm on each training images' mask sum, with the hope that the clusters would highlight 1) urban areas (images with generally more roads) 2) rural areas (images with fewer roads) 3) the pesky in between road level. 
-
-The results were consistent, though not uniform, with this hypothesis. The images below show 5 randomly sampled images from each cluster. 
-
-Satisfied with this clustering, the next step was an attempt at leveraging the information in each cluster to produce a prediction.
-
-## Logistic Regression and the Limitations of Feature Engineering
-
-At that point in the semester, we had not been exposed to deep learning, so at our disposal we had relatively weaker tools for classification.  We decided to use logistic regression given our wealth of experience implementing this technique.  In order to incorporate the information from our clusters, we devised the following algorithm for prediction on a new image:
-
-Our intuition behind this algorithm was simple: fit a few models within each cluster to capture in-group variability, and then use a similarity metric to determine which model would be best to use to predict on an unseen image.  
-
-The hyperparameters governing this algorithm, like the number of images to sample within each cluster and the degree of the polynomial basis expansion of the feature matrix were quite arbitrary.  This was really just a first effort to produce a prediction, and the results speak to that (which can be seen in Figure 7).  However, we uncovered some important information as to why a method like single layer logistic regression would never produce good predictions given the problem. Below is an example of a prediction produced by this algorithm:
-
-As you can see, once the model for the "closest" image is chosen, and predictions are made, they are entirely based on the RGB channels of individual pixels.  Areas that have colors similar to the roads in the picture, which in this example are beige (for instance the model classifies the field from (([300,500],[100,200]) as one big road), are classified as roads even though they are clearly not.  
-
-Therefore, this type of classifier only makes its predictions based on pixel colors, which will not generalize given the varying colors of roads in the images. In fact, we realized that no amount of feature engineering on the RGB values of a given pixel would produce models that would predict well. The classification of a pixel as a road or not is a far more sophisticated problem than identifying connections between color channels.
+Image data can be interpreted as a feature matrix  based on color channels, and that image segmentation is simply a classification problem. Though the formulation appeared simple, the sheer size of the training data set coupled with our desire to produce a robust model for classification presented a difficult challenge.  
 
 ## Progression to Convolutional Neural Networks: the U-Net
 
-As we could not rely on manually engineering a basis to map the information available in an image to its corresponding mask, we turned to deep neural networks to better approximate this function. Further research on effective network architectures highlighted the U-Net, a convolutional neural network, as the best performing network structure for the task of image segmentation \cite{unet}.
+As we could not rely on manually engineering a basis to map the information available in an image to its corresponding mask, we turned to deep neural networks to better approximate this function. Further research on effective network architectures highlighted the U-Net, a convolutional neural network, as the best performing network structure for the task of image segmentation.
 
 This network essentially has two stages. First a series of 3x3 convolutions followed by non-linear activation functions and pooling contracts the image with the goal of feature extraction.  In each subsequent layer of the "downward" pass, the number of feature maps is doubled while the image is shrunken.  Once a sufficient number of feature maps have been created, the image is then expanded through 2$\times$2 up convolutions and parameter concatenation with corresponding contraction layers until it reaches its original input size. The output is then passed through a fully connected layer with a sigmoid activation to create a segmentation map.    
 
