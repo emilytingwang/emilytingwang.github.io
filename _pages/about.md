@@ -7,7 +7,7 @@ author_profile: true
 ---
 
 ## Contact Info
-<small>
+
 **Work Address**:
 Department of Statistics, MS 100
 
@@ -17,13 +17,12 @@ Rice University
 
 Houston, TX 77005, USA
 
-
 **Office**: Duncan Hall 1039
+
 
 **E-mail**: `emilywang@rice.edu`
 
 **Phone**: (469)-396-3543
-</small>
 
 ## Bio
 I am currently a 3rd year PhD Candidate in Statistics at Rice University. My advisor is Dr. Marina Vannucci. 
