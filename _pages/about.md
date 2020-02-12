@@ -14,7 +14,7 @@ title: About
 
 ## About me
 
-Hi! My name is Emily Wang.
+Hi! My name is Emily Wang.2
 
 
 
