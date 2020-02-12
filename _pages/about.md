@@ -8,3 +8,5 @@ defaults:
     values:
       layout: single
       author_profile: true
+
+Hi! My name is Emily Wang.
