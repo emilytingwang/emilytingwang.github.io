@@ -1,6 +1,6 @@
 ---
 permalink: /segmenting-the-road-not-taken/
-title: "About Me"
+title: "(Segmenting) The Road Not Taken"
 type: posts
 layout: single
 author_profile: true
@@ -12,11 +12,12 @@ excerpt: "Deep Learning models for segmenting satellite road and highway images.
 ---
 
 ## Description
+
 This work follows the development of our ability to implement complex algorithms on a high dimensional data set.  Our final model produced a dice coefficient of over 0.76 in the task of extracting roads from satellite images, placing among the top 10 teams in the class, and highlights our progression of knowledge in how to approach prediction problems in the field of machine learning. We began early in the project phase by implementing a naive K-nearest-neighbors logistic regression, based on results from our clustering algorithm. As we learned more about deep networks such as convolutional neural networks, we implemented a very basic U-Net, which outperformed the logistic regression by a great deal. We improved upon this classic architecture by adding various encoders to the U-Net's contraction path. We determined which methods worked best and, using those encoders, we were able to create a final ensemble of two models that noticeably improved the prediction accuracy of the original U-Net. 
 
 ## Exploratory Data Analysis and Initial Modeling Attempts
 
-The goal of this project was to segment and extract road pixels from $512\times512$ RGB satellite aerial images. We were given approximately 10,000 training images to train on and 2,170 test images for which our predictions will be evaluated. At first look, there was a large variety of images which ranged from highly urban (many buildings and roads), to mostly rural (many fields and not many buildings), to a mix of urban/rural areas. It was also clear that this was an unbalanced classification problem: 96\% of pixels were non-road, and only 4\% were roads. 
+The goal of this project was to segment and extract road pixels from 512\(\times\)512 RGB satellite aerial images. We were given approximately 10,000 training images to train on and 2,170 test images for which our predictions will be evaluated. At first look, there was a large variety of images which ranged from highly urban (many buildings and roads), to mostly rural (many fields and not many buildings), to a mix of urban/rural areas. It was also clear that this was an unbalanced classification problem: 96\% of pixels were non-road, and only 4\% were roads. 
 
 Neither of us had ever worked with image data, nor tackled an image segmentation problem.  However, we were quickly able to discern that image data can be interpreted as a feature matrix  based on color channels, and that image segmentation is simply a classification problem. Though the formulation appeared simple, the sheer size of the training data set coupled with our desire to produce a robust model for classification presented a difficult challenge.  
 
