@@ -62,9 +62,9 @@ tags:
 
 <h3> Road Inclusion Probability and Minimum Mask Size</h3>
 
-<p>Given a 512x512 matrix of probabilities from any one of the several models we ran, we had to decide how to then convert this matrix into a proper mask that would highlight roads.  We initially labeled any pixel with output probability greater than 50$\%$ as a road.   Under this regime, we were frustrated by our models' inaccuracies, but failed to realize that these could in part be because of a low threshold value.  </p>
+<p>Given a 512x512 matrix of probabilities from any one of thegr several models we ran, we had to decide how to then convert this matrix into a proper mask that would highlight roads.  We initially labeled any pixel with output probability greater than 50% as a road.   Under this regime, we were frustrated by our models' inaccuracies, but failed to realize that these could in part be because of a low threshold value.  </p>
 
-<p>Looking at the images and corresponding masks in the training set, we realized that roads comprise a generally small proportion of the image. In fact, on average only 4\% of pixels were roads (Figure 9). As a result, we hypothesized that if we increased the probability threshold when converting output to mask, i.e. required the model to be more confident when making a road classification, our accuracy would increase.  </p>
+<p>Looking at the images and corresponding masks in the training set, we realized that roads comprise a generally small proportion of the image. In fact, on average only 4% of pixels were roads (Figure 9). As a result, we hypothesized that if we increased the probability threshold when converting output to mask, i.e. required the model to be more confident when making a road classification, our accuracy would increase.  </p>
 
 <p>Based on the competition metric, we also introduced the idea of a minimum mask size as another post-processing step. The Dice Coefficient greatly penalizes false positives, or pixels classified by the model as roads that are not roads, when the true mask size is very low.  Once we had thresholded the output probabilities, we examined each prediction to see the number of encoded roads in the predicted mask.  Given that there are 512x512 pixels in a mask, we decided that there should be base minimum number of pixels classified as roads in a mask for us to find a sweet spot with the competition metric.</p>
 
@@ -99,7 +99,7 @@ tags:
 
 <p>This project represents our gradual improvement in understanding machine learning methods both simple and complex as applied to an image segmentation problem. At the beginning of the project, when we had minimal knowledge of convolutional neural networks, we applied what we did know of machine learning (namely logistic regression and K-means clustering) to the problem and achieved nontrivial, though not very accurate, results. </p>
 
-<p>As we learned more about CNNs, we were able to implement a basic deep network called the U-Net with very promising results. We gradually improved the algorithm through multiple small steps and finally achieved an improvement of over 10\% accuracy over our original U-Net. </p>
+<p>As we learned more about CNNs, we were able to implement a basic deep network called the U-Net with very promising results. We gradually improved the algorithm through multiple small steps and finally achieved an improvement of over 10% accuracy over our original U-Net. </p>
 
 <p>Our final model utilizes a self-tuned U-Net-ResNet34, and achieved a modified dice coefficient of over 0.76 on both the public and private leader boards. We placed 8th on the public Kaggle board, and 10th on the private board. We have learned a lot through this project, mostly through both trial and error and connecting what we learned in class to new methods discovered through research on similar problems. </p>
 
