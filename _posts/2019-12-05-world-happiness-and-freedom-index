@@ -1,0 +1,39 @@
+---
+permalink: /world-happiness-and-freedom-index/
+title: "World Happiness and Freedom Index"
+last_modified_at: 2019-12-05 23:20:02 -0500
+type: posts
+layout: single
+author_profile: true
+reading_time: true
+comments: true
+share: true
+excerpt: "Multivariate analysis of world happiness and freedom index data."
+tags:
+  - Variable selection
+  - Clustering
+  - Principal components analysis
+  - K-means
+  - t-SNE
+  - LDA
+---
+
+<h2> Motivation </h2>
+
+<p>This project investigates the impact of economic, social, and political factors on human perceptions of freedom and happiness. Using the data, we attempt to identify clusters of countries that are alike. For example, we can look for countries where people have restricted freedoms but are happy, or we can look for countries where people have a lot of freedom but aren't happy (an anarchy-like state). </p>
+
+<h2> </h2>
+
+<p></p>
+
+<p align="center">
+  <img width="280" height="180" src=/assets/U-Net.png>
+</p>
+
+<h2> Fine Tuning the U-Net: Hyperparameters and Encoders</h2>
+
+<p>After identifying an existing architecture that had achieved comparative success in the image segmentation problem, we were eager to test its ability on our own data set and hoped to find a variation that would produce great results.  </p>
+
+<h3> Introducing Pre-trained Encoders to the U-Net</h3>
+
+<p>The performance of our best model so far capped at around a 0.68 modified dice coefficient after post-processing. In order to increase this, we either had to improve the U-Net somehow or introduce new architectures. We looked up similar competitions in Kaggle (specifically the 2018 TGS Salt Identification Challenge and the 2015 Ultrasound Nerve Segmentation Competition for inspiration. Though many approaches were unrealistic for us in terms of compute time or complexity, many top performing contestants reported good results by integrating pre-trained encoders with an existing popular framework such as the U-Net or LinkNet. We decided to try some of these approaches with our current U-Net. Originally, we had very limited knowledge as to what these encoders actually did besides replace the classic down-sampling path of the U-Net with a more suitable path that allowed the new algorithm to either train faster, generalize better, or extract more relevant features. Upon further research, we understood the encoders as a method for creating "skip connections" over dense, complex regions in the architecture which had the effect of creating a smoother loss function, void of some of the local minima that a high dimensional model was bound to create. Using trial-and-error, we experimented with a few of these encoders such as VGG16, ResNet34, and ResNeXt50.</p>
