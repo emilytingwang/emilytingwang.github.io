@@ -24,16 +24,16 @@ tags:
 
 <h2> Data </h2>
 
-<p>Data is available to us through two sources that are freely available on the Internet. Our first source is the \textit{Human Freedom Index}, a compendium of measures of human civil, economic, and personal freedoms. It is a yearly report compiled by three research institutions, Cato Institute, Fraser Institute, and Friedrich Naumann Foundation for Freedom, across the globe since 2015. The dataset includes 119 total  measures of both personal freedoms (such as criminal justice, access to Internet, freedom of religion) and economic freedoms (such as tax rate, property rights, inflation). </p>
+<p>Data is available to us through two sources that are freely available on the Internet. Our first source is the <i>Human Freedom Index</i>, a compendium of measures of human civil, economic, and personal freedoms. It is a yearly report compiled by three research institutions, Cato Institute, Fraser Institute, and Friedrich Naumann Foundation for Freedom, across the globe since 2015. The dataset includes 119 total  measures of both personal freedoms (such as criminal justice, access to Internet, freedom of religion) and economic freedoms (such as tax rate, property rights, inflation). </p>
 
-<p>Our second source is the \textit{World Happiness Report}, a survey of the state of global happiness released by the United Nations yearly since 2012. The report uses data from the Gallup World Poll, which surveys nationally representative samples of people, then determines a final score and rank for each country. The countries are scored on seven factors:</p>
+<p>Our second source is the <i>World Happiness Report</i>, a survey of the state of global happiness released by the United Nations yearly since 2012. The report uses data from the Gallup World Poll, which surveys nationally representative samples of people, then determines a final score and rank for each country. The countries are scored on seven factors:</p>
 
 <p> We combine the two data sources by merging by their common countries (of which there are 64 without any missing data), focusing on 120 features (eliminating duplicate ones), and the years 2015-2016.  </p>
 
-<p>Since we have $p=120$, it is difficult to analyze each feature individually. Instead, we can plot a correlation plot (Figure 2), which helps us visualize clusters of features that are similar to each other. </p>
+<p>Since we have p = 120 variables, it is difficult to analyze each feature individually. Instead, we can plot a correlation plot, which helps us visualize clusters of features that are similar to each other. </p>
 
 <p align="center">
-  <img width="280" height="180" src=/assets/U-Net.png>
+  <img width="280" height="180" src=/assets/corr-1.png>
 </p>
 
 <h2> Dimension Reduction </h2>
@@ -48,9 +48,13 @@ tags:
 
 <p> t-Distributed Stochastic Neighbor Embedding (t-SNE) is a non-linear dimension reduction method, and also our last method of that kind. While PCA is linear and has difficulty representing complex polynomial relationships between features, t-SNE is able to represent high-dimensional data on a non-linear, low dimensional manifold. </p>
 
-<p> t-SNE uses conditional probabilities to represent similarities between datapoints. Specifically, the similarity of datapoint $x_j$ to $x_i$ is the conditional probability $x_i$ would pick $x_j$ as its neighbor, in proportion to their probability density under a Gaussian centered at $x_i$. </p>
+<p> t-SNE uses conditional probabilities to represent similarities between datapoints. Specifically, the similarity of datapoint x_j to x_i is the conditional probability x_i would pick x_j as its neighbor, in proportion to their probability density under a Gaussian centered at x_i. </p>
 
-<p> t-SNE returns a low-dimension matrix $Y$, called the embedding matrix, which minimizes the sum of these differences in conditional probabilities. </p>
+<p> t-SNE returns a low-dimension matrix <i>Y</i>, called the embedding matrix, which minimizes the sum of these differences in conditional probabilities. </p>
+
+<p align="center">
+  <img width="280" height="180" src=/assets/tsne_2_labeled-1.png>
+</p>
 
 <p> It is interesting to note that most points comes in a pair. This is because we have data for each country from two consecutive years, 2015 and 2016. The statistics for the same country are very similar between 2015 and 2016, so it is natural that these points are very near each other. </p>
 
@@ -63,17 +67,40 @@ tags:
 <h3> K-Means </h3>
 <p> With K = 4, the BSS/TSS (between sum-of-squares divided bytotal sum-of-squares, interpreted as the amount of variance explained by the clustering so generallythe higher the better) is 64.9%, making it the best fit so  far  for  the  raw  data. It is interesting to note that, while happiness still has horrible separation, freedom is very well separated into two clusters of countries with lower than the median score and two clusters with above themedian score. </p>
 
+<p align="center">
+  <img width="280" height="180" src=/assets/freedom_hist_k_4.png>
+</p>
+
 <p> We also performed K-means on the results of PCA, using only the first two principal components for visualization and simplicity. Again the decision of the optimal number of clusters was left to the elbow method, with the optimal K = 3. </p>
+
+<p align="center">
+  <img width="280" height="180" src=/assets/pca_k_3_v1.png>
+</p>
 
 <h3> Hierarchical Clustering </h3>
 <p> Another clustering method we tried was hierarchical clustering, using both the agglomerative (bottom-up clustering, each datapoint begins as a singleton cluster) and divisive (top-down clustering, all datapoints begin in a single large cluster) methods on the scaled significant variables from LASSO. Euclidean distance was selected as the dissimilarity measure. </p>
 
 <p> We can observe the results of both hierarchical clusterings on 2D Euclidean space: </p>
 
+<p align="center">
+  <img width="280" height="180" src=/assets/Agglomerative_Clusters.png>
+</p>
+
+<p align="center">
+  <img width="280" height="180" src=/assets/Divisive_Clusters.png>
+</p>
+
 <h3> Linear Discriminant Analysis (LDA) </h3>
 <p> In this section we apply a method that is very similar to clustering: classification and prediction. We use linear discriminant analysis (LDA) to find a linear combination of features that separates two (or more) classes of data, similar to ANOVA or logistic regression. </p>
 
 <p> At first, running LDA on the raw dataset does not work, as there are too many correlated variables resulting in multicollinearity. To get around this issue, we can first do dimension reduction via t-SNE and then run LDA on the results. </p>
+
+<p align="center">
+  <img width="280" height="180" src=/assets/lda_25_freedom-1.png>
+</p>
+<p align="center">
+  <img width="280" height="180" src=/assets/lda_25_happiness-1.png>
+</p>
 
 <h2> Conclusions </h2>
 <p> From running three different methods of dimension reduction/variable selection (PCA, t-SNE, and LASSO), each performed vastly different functions. It is unclear which method is strictly the best; likely each method has its own merits depending on the final problem to be solved.</p>
