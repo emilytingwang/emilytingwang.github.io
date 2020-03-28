@@ -42,13 +42,13 @@ tags:
 
 <h3> LASSO Regression </h3>
 
-<p>We use LASSO regression to identify statistically significant variables using human freedom score and happiness score as dependent variables. We run the algorithm separately, once with freedom as the dependent variable, and once with happiness, using cross-validation to identify the optimal shrinkage value. Combining the results of both regressions, the significant variables were reduced from 120 down to 8:</p>
+<p>We use LASSO regression to identify statistically significant variables using human freedom score and happiness score as dependent variables. We run the algorithm separately, once with freedom as the dependent variable, and once with happiness, using cross-validation to identify the optimal shrinkage value. Combining the results of both regressions, the significant variables were reduced from 120 down to 8.</p>
 
 <h3> t-Distributed Stochastic Neighbor Embedding </h3>
 
 <p> t-Distributed Stochastic Neighbor Embedding (t-SNE) is a non-linear dimension reduction method, and also our last method of that kind. While PCA is linear and has difficulty representing complex polynomial relationships between features, t-SNE is able to represent high-dimensional data on a non-linear, low dimensional manifold. </p>
 
-<p> t-SNE uses conditional probabilities to represent similarities between datapoints. Specifically, the similarity of datapoint x_j to x_i is the conditional probability x_i would pick x_j as its neighbor, in proportion to their probability density under a Gaussian centered at x_i. </p>
+<p> t-SNE uses conditional probabilities to represent similarities between datapoints. Specifically, the similarity of datapoint x<sub>j</sub> to x<sub>i</sub> is the conditional probability x<sub>i</sub> would pick x<sub>j</sub> as its neighbor, in proportion to their probability density under a Gaussian centered at x<sub>i</sub>. </p>
 
 <p> t-SNE returns a low-dimension matrix <i>Y</i>, called the embedding matrix, which minimizes the sum of these differences in conditional probabilities. </p>
 
@@ -60,7 +60,7 @@ tags:
 
 <h3> Principal Components Analysis </h3>
 
-<p>We used PCA as another dimension reduction method. For visualization purposes, we projected the data onto the first two principal components, i.e.\ largest two eigenvectors. These two components explained 44\% of the variance in the dataset. </p>
+<p>We used PCA as another dimension reduction method. For visualization purposes, we projected the data onto the first two principal components, i.e.\ largest two eigenvectors. These two components explained 44% of the variance in the dataset. </p>
 
 <h2> Clustering </h2>
 
