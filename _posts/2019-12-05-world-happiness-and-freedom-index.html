@@ -33,7 +33,7 @@ tags:
 <p>Since we have p = 120 variables, it is difficult to analyze each feature individually. Instead, we can plot a correlation plot, which helps us visualize clusters of features that are similar to each other. </p>
 
 <p align="center">
-  <img width="280" height="180" src=/assets/corr-1.png>
+  <img width="320" height="220" src=/assets/corr-1.png>
 </p>
 
 <h2> Dimension Reduction </h2>
@@ -53,7 +53,7 @@ tags:
 <p> t-SNE returns a low-dimension matrix <i>Y</i>, called the embedding matrix, which minimizes the sum of these differences in conditional probabilities. </p>
 
 <p align="center">
-  <img width="280" height="180" src=/assets/tsne_2_labeled-1.png>
+  <img width="320" height="220" src=/assets/tsne_2_labeled-1.png>
 </p>
 
 <p> It is interesting to note that most points comes in a pair. This is because we have data for each country from two consecutive years, 2015 and 2016. The statistics for the same country are very similar between 2015 and 2016, so it is natural that these points are very near each other. </p>
@@ -68,13 +68,13 @@ tags:
 <p> With K = 4, the BSS/TSS (between sum-of-squares divided bytotal sum-of-squares, interpreted as the amount of variance explained by the clustering so generallythe higher the better) is 64.9%, making it the best fit so  far  for  the  raw  data. It is interesting to note that, while happiness still has horrible separation, freedom is very well separated into two clusters of countries with lower than the median score and two clusters with above themedian score. </p>
 
 <p align="center">
-  <img width="280" height="180" src=/assets/freedom_hist_k_4.png>
+  <img width="320" height="220" src=/assets/freedom_hist_k_4.png>
 </p>
 
 <p> We also performed K-means on the results of PCA, using only the first two principal components for visualization and simplicity. Again the decision of the optimal number of clusters was left to the elbow method, with the optimal K = 3. </p>
 
 <p align="center">
-  <img width="280" height="180" src=/assets/pca_k_3_v1.png>
+  <img width="320" height="220" src=/assets/pca_k_3_v1.png>
 </p>
 
 <h3> Hierarchical Clustering </h3>
@@ -83,11 +83,11 @@ tags:
 <p> We can observe the results of both hierarchical clusterings on 2D Euclidean space: </p>
 
 <p align="center">
-  <img width="280" height="180" src=/assets/Agglomerative_Clusters.png>
+  <img width="320" height="220" src=/assets/Agglomerative_Clusters.png>
 </p>
 
 <p align="center">
-  <img width="280" height="180" src=/assets/Divisive_Clusters.png>
+  <img width="320" height="220" src=/assets/Divisive_Clusters.png>
 </p>
 
 <h3> Linear Discriminant Analysis (LDA) </h3>
@@ -96,10 +96,10 @@ tags:
 <p> At first, running LDA on the raw dataset does not work, as there are too many correlated variables resulting in multicollinearity. To get around this issue, we can first do dimension reduction via t-SNE and then run LDA on the results. </p>
 
 <p align="center">
-  <img width="280" height="180" src=/assets/lda_25_freedom-1.png>
+  <img width="320" height="220" src=/assets/lda_25_freedom-1.png>
 </p>
 <p align="center">
-  <img width="280" height="180" src=/assets/lda_25_happiness-1.png>
+  <img width="320" height="220" src=/assets/lda_25_happiness-1.png>
 </p>
 
 <h2> Conclusions </h2>
